@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Convidados</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Lista de Convidados</h1>
+    <div id="lista"></div>
+    <button onclick="voltar()">Voltar</button>
+
+    <script>
+        function obterDados() {
+            var xhr = new XMLHttpRequest();
+            xhr.overrideMimeType("application/json");
+            xhr.open('GET', 'dados_usuario.json', true);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    var dados = JSON.parse(xhr.responseText);
+                    exibirDados(dados);
+                }
+            };
+            xhr.send(null);
+        }
+
+        function exibirDados(dados) {
+            var listaDiv = document.getElementById('lista');
+            var listaHTML = '<h2>Dados do Usuário:</h2>';
+            listaHTML += '<p><strong>Nome:</strong> ' + dados.nome + '</p>';
+            listaHTML += '<p><strong>Telefone:</strong> ' + dados.telefone + '</p>';
+            listaHTML += '<p><strong>Comidas:</strong> ' + dados.comidas.join(', ') + '</p>';
+            listaHTML += '<p><strong>Bebidas:</strong> ' + dados.bebidas.join(', ') + '</p>';
+            listaDiv.innerHTML = listaHTML;
+        }
+
+        function voltar() {
+            window.location.href = 'index.html';
+        }
+
+        window.onload = obterDados;
+    </script>
+</body>
+</html>
